@@ -58,10 +58,6 @@ def format_t12(file_path):
     ws.row_dimensions[2].height = 18
     ws.row_dimensions[3].height = 16
 
-    # 12. Add "Total" to N5 and right-align
-    ws["N5"].value = "Total"
-    ws["N5"].alignment = Alignment(horizontal="right")
-
     # 13. Hide gridlines
     ws.sheet_view.showGridLines = False
 
