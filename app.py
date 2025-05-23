@@ -12,6 +12,17 @@ from datetime import datetime
 import tempfile
 
 def format_t12(file_path):
+    # Load original workbook for reference values
+    original_wb = load_workbook(file_path, data_only=True)
+    original_ws = original_wb.active
+
+    # Extract C9:N9 and B11:N11 values and formats
+    row9_values = [original_ws.cell(row=9, column=col).value for col in range(3, 15)]
+    row9_format = [original_ws.cell(row=9, column=col).number_format for col in range(3, 15)]
+    row11_values = [original_ws.cell(row=11, column=col).value for col in range(2, 15)]
+    row11_format = [original_ws.cell(row=11, column=col).number_format for col in range(2, 15)]
+
+    # Reload workbook for formatting
     wb = load_workbook(file_path)
     ws = wb.active
 
@@ -61,12 +72,14 @@ def format_t12(file_path):
     # Step 10: Hide gridlines
     ws.sheet_view.showGridLines = False
 
-    # Step 11: Format numbers with commas and parentheses (no red)
-    format_code = '#,##0_);(#,##0)'
-    for col in range(3, 15):
-        ws.cell(row=9, column=col).number_format = format_code
-    for col in range(2, 15):
-        ws.cell(row=11, column=col).number_format = format_code
+    # Step 11: Restore extracted values to rows 9 and 11 with format
+    for i, col in enumerate(range(3, 15)):
+        ws.cell(row=9, column=col).value = row9_values[i]
+        ws.cell(row=9, column=col).number_format = row9_format[i]
+
+    for i, col in enumerate(range(2, 15)):
+        ws.cell(row=11, column=col).value = row11_values[i]
+        ws.cell(row=11, column=col).number_format = row11_format[i]
         ws.cell(row=11, column=col).font = Font(color="000000")
 
     # Step 12: Build output filename
