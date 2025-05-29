@@ -71,8 +71,8 @@ def format_t12(file_path):
     return output_path
 
 # Streamlit UI
-st.title("📊 T12 Formatter for Multifamily Reports")
-st.write("Upload a raw T12 Excel file and get a perfectly formatted version for investors and lenders.")
+st.title("📊 T12 Summary Formatter")
+st.write("Upload a raw T12 Excel file and get a cleaned, formatted summary ready for sharing.")
 
 uploaded_file = st.file_uploader("Upload your T12 Excel file", type=["xlsx"])
 
