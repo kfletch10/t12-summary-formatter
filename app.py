@@ -64,7 +64,7 @@ def format_t12(file_path):
     # 14. Save output
     property_name = ws["A1"].value or "Property"
     safe_property = str(property_name).replace(" ", "_").replace("/", "-").strip()
-    filename = f"{safe_property}_T12_{formatted_date}.xlsx"
+    filename = f"{safe_property}_T12 Summary_{formatted_date}.xlsx"
     output_path = os.path.join(tempfile.gettempdir(), filename)
     wb.save(output_path)
 
