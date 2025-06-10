@@ -27,25 +27,20 @@ def format_t12(file_path):
     for col in range(2, 15):
         ws.column_dimensions[get_column_letter(col)].width = 12
 
-    # 4. Shade A45:N45
-    fill = PatternFill(start_color="DDDDDD", end_color="DDDDDD", fill_type="solid")
-    for col in range(1, 15):
-        ws.cell(row=45, column=col).fill = fill
-
-    # 5. Bold A21:N21, A25:N25, A43:N43, A45:N45, A55:N55
+    # 4. Bold A21:N21, A25:N25, A43:N43, A45:N45, A55:N55
     bold_font = Font(bold=True)
     for row in [21, 25, 43, 45, 55]:
         for col in range(1, 15):
             ws.cell(row=row, column=col).font = bold_font
 
-    # 6. Delete rows 1–5, 9–11, and 60
+    # 5. Delete rows 1–5, 9–11, and 60
     for row in sorted([1, 2, 3, 4, 5, 9, 10, 11, 60], reverse=True):
         ws.delete_rows(row)
 
-    # 7. Freeze Pane at B6
+    # 6. Freeze Pane at B6
     ws.freeze_panes = "B6"
 
-    # 8. Use A3 for filename
+    # 7. Use A3 for filename
     date_value = ws["A3"].value if ws["A3"].value else "NoDate"
     try:
         parsed_date = datetime.strptime(str(date_value), "%B %d, %Y")
@@ -53,15 +48,15 @@ def format_t12(file_path):
     except ValueError:
         formatted_date = "Unknown_Date"
 
-    # 9 & 10. Set row heights
+    # 8 & 9. Set row heights
     ws.row_dimensions[1].height = 18
     ws.row_dimensions[2].height = 18
     ws.row_dimensions[3].height = 16
 
-    # 13. Hide gridlines
+    # 10. Hide gridlines
     ws.sheet_view.showGridLines = False
 
-    # 14. Save output
+    # 11. Save output
     property_name = ws["A1"].value or "Property"
     safe_property = str(property_name).replace(" ", "_").replace("/", "-").strip()
     filename = f"{safe_property}_T12 Summary_{formatted_date}.xlsx"
